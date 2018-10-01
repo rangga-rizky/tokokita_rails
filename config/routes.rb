@@ -9,6 +9,10 @@ Rails.application.routes.draw do
   get '/products', to: 'products#index'
   post '/products', to: 'products#create'
   get '/products/:id', to: 'products#show'
+  post '/orders', to: 'orders#create'
+  get '/orders/user/:id', to: 'orders#indexByUser'
+  get '/orders/seller/:id', to: 'orders#indexBySeller'
+  get '/orders/:id', to: 'orders#show'
 
   resources :carts
   resources :cards
