@@ -4,6 +4,7 @@ module ExceptionHandler extend ActiveSupport::Concern
     class AuthenticationError < StandardError; end
     class MissingToken < StandardError; end
     class InvalidToken < StandardError; end
+    class ParameterInvalid < StandardError; end
   
     included do
       # Define custom handlers
@@ -12,6 +13,7 @@ module ExceptionHandler extend ActiveSupport::Concern
       rescue_from StandardError::ArgumentError, with: :bad_request
       rescue_from ExceptionHandler::MissingToken, with: :unauthorized_request
       rescue_from ExceptionHandler::InvalidToken, with: :four_twenty_two
+      rescue_from ExceptionHandler::ParameterInvalid, with: :four_twenty_two
       rescue_from ActionController::RoutingError ,with: :not_found
     end
   

@@ -10,6 +10,30 @@ class OrdersController < ApplicationController
         render json: @orders , each_serializer: OrdersSerializer  
     end
 
+    def accept
+        @order = Order.find(params[:id])
+        if  @order.seller_id != current_user.id
+            raise(ExceptionHandler::InvalidToken, Message.invalid_token) 
+        end
+        if @order.status != "WAITING"
+            raise(ExceptionHandler::ParameterInvalid, Message.parameter_invalid)
+        end
+        @order.update({:status => "ACCEPTED"})
+        json_response(:message => "Orderan berhasil diterima")
+    end
+
+    def deliver
+        @order = Order.find(params[:id])
+        if  @order.seller_id != current_user.id
+            raise(ExceptionHandler::InvalidToken, Message.invalid_token) 
+        end
+        if @order.status != "ACCEPTED"
+            raise(ExceptionHandler::ParameterInvalid, Message.parameter_invalid)
+        end
+        @order.update({:status => "DELIVERED"})
+        json_response(:message => "Orderan berhasil dikirim")
+    end
+
     def show
         @order = Order.find(params[:id])
         if @order.user_id != current_user.id && @order.seller_id != current_user.id

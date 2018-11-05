@@ -5,6 +5,7 @@ class User < ApplicationRecord
     has_many :carts
     has_many :cards
     has_many :addresses
+    has_many :reviews
     validates :username, presence:true,length: {minimum:3},uniqueness: true
     validates :email, presence:true,length: {minimum:3},uniqueness: true
     validates :birthdate, presence:true
